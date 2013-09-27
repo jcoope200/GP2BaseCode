@@ -82,6 +82,9 @@
     <ClInclude Include="GameApplication.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\D3D10Renderer\D3D10Renderer.vcxproj">
+      <Project>{0681e1e8-648c-4fb2-8778-381e813560b4}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Window\Window.vcxproj">
       <Project>{db0e915c-43b1-49a3-a126-3551bf087ffe}</Project>
     </ProjectReference>
