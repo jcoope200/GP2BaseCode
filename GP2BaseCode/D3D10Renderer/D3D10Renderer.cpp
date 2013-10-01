@@ -10,6 +10,10 @@ D3D10Renderer::D3D10Renderer()
 	m_pSwapChain=NULL;
 	m_pDepthStencilView=NULL;
 	m_pDepthStencilTexture=NULL;
+	m_pTempEffect=NULL;
+	m_pTempTechnique=NULL;
+	m_pTempBuffer=NULL;
+	m_pTempVertexLayout=NULL;
 }
 
 D3D10Renderer::~D3D10Renderer()
@@ -41,6 +45,12 @@ bool D3D10Renderer::init(void *pWindowHandle,bool fullScreen)
 	if (!createDevice(window,width,height,fullScreen))
 		return false;
 	if (!createInitialRenderTarget(width,height))
+		return false;
+	//if (!loadEffectFromMemory(pMem))
+		//return false;
+	if (!createBuffer())
+		return false;
+	if (!createVertexLayout())
 		return false;
 
 	return true;
@@ -194,4 +204,8 @@ void D3D10Renderer::present()
 {
 	//this presents the next set of buffers in the set of buffers owned by the swap chain
 	m_pSwapChain->Present( 0, 0);
+}
+
+void D3D10Renderer::render()
+{
 }
