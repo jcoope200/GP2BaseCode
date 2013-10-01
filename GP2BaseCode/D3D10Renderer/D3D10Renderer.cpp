@@ -3,6 +3,8 @@
 #include <d3d10.h>
 #include <d3dx10.h>
 
+struct Vertex{float x, y, z;};
+
 D3D10Renderer::D3D10Renderer()
 {
 	m_pD3D10Device=NULL;
@@ -21,6 +23,13 @@ D3D10Renderer::~D3D10Renderer()
 	if (m_pD3D10Device)
 		m_pD3D10Device->ClearState();
 
+	if (m_pTempEffect)
+		m_pTempEffect->Release();
+	if (m_pTempVertexLayout)
+		m_pTempVertexLayout->Release();
+	if (m_pTempBuffer)
+		m_pTempBuffer->Release();
+
 	if (m_pRenderTargetView)
 		m_pRenderTargetView->Release();
 	if (m_pDepthStencilView)
@@ -31,6 +40,7 @@ D3D10Renderer::~D3D10Renderer()
 		m_pSwapChain->Release();
 	if (m_pD3D10Device)
 		m_pD3D10Device->Release();
+	
 }
 
 bool D3D10Renderer::init(void *pWindowHandle,bool fullScreen)
@@ -186,6 +196,34 @@ bool D3D10Renderer::createInitialRenderTarget(int windowWidth, int windowHeight)
 	//this binds the viewport array to the rasterizer
 	//takes in the number of viewports and the array of viewports
 	m_pD3D10Device->RSSetViewports(1, &vp);
+	return true;
+}
+
+bool D3D10Renderer::createBuffer()
+{
+	Vertex verts[]={
+		{-1.0f,-1.0f,0.0f},
+		{0.0f,1.0f,0.0f},
+		{1.0f,-1.0f,0.0f}
+	};
+
+	D3D10_BUFFER_DESC bd;
+	bd.Usage = D3D10_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof( Vertex ) * 3;
+	bd.BindFlags = D3D10_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = 0;
+	bd.MiscFlags = 0;
+
+	D3D10_SUBRESOURCE_DATA InitData;
+	InitData.pSysMem = &verts;
+
+	if (FAILED(m_pD3D10Device->CreateBuffer(
+		&bd,
+		&InitData,
+		&m_pTempBuffer )))
+	{
+		OutputDebugStringA("Can't create buffer");
+	}
 	return true;
 }
 
