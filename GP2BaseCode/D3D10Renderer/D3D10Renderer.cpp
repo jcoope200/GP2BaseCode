@@ -199,6 +199,11 @@ bool D3D10Renderer::createInitialRenderTarget(int windowWidth, int windowHeight)
 	return true;
 }
 
+bool D3D10Renderer::loadEffectFromMemory(const char* pMem)
+{
+	return true;
+}
+
 bool D3D10Renderer::createBuffer()
 {
 	Vertex verts[]={
@@ -224,6 +229,12 @@ bool D3D10Renderer::createBuffer()
 	{
 		OutputDebugStringA("Can't create buffer");
 	}
+	return true;
+}
+
+
+bool D3D10Renderer::createVertexLayout()
+{
 	return true;
 }
 
