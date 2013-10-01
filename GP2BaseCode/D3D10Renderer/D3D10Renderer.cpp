@@ -5,6 +5,17 @@
 
 struct Vertex{float x, y, z;};
 
+const char basicEffect[]=\
+	"float4 VS( float4 Pos : POSITION) : SV_POSITION"\
+	"{"\
+	" return Pos;"\
+	"}"\
+	"float4 PS( float4 Pos : SV_POSITION ) : SV_Target"\
+	"{"\
+	" return float4( 1.0f, 1.0f, 0.0f, 1.0f);"\
+	"}"\
+	"technique10 Render"\
+
 D3D10Renderer::D3D10Renderer()
 {
 	m_pD3D10Device=NULL;
