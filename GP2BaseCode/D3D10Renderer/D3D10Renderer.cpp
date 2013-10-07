@@ -1,9 +1,23 @@
 #include "D3D10Renderer.h"
 
-#include <d3d10.h>
-#include <d3dx10.h>
+#include <D3D10.h>
+#include <D3DX10.h>
 
-struct Vertex{float x, y, z;};
+struct Vertex
+{
+	float x, y, z;
+};
+
+const D3D10_INPUT_ELEMENT_DESC VertexLayout[] =
+{
+	{ "POSITION",
+		0,
+		DXGI_FORMAT_R32G32B32_FLOAT,
+		0,
+		0,
+		D3D10_INPUT_PER_VERTEX_DATA,
+		0 },
+};
 
 const char basicEffect[]=\
 	"float4 VS( float4 Pos : POSITION) : SV_POSITION"\
@@ -15,6 +29,14 @@ const char basicEffect[]=\
 	" return float4( 1.0f, 1.0f, 0.0f, 1.0f);"\
 	"}"\
 	"technique10 Render"\
+	"{"\
+	"	pass P0"\
+	"	{"\
+	"		SetVertexShader( CompileShader( vs_4_0, VS() ) );"\
+	"		SetGeometryShader( NULL );"\
+	"		SetPixelShader ( CompileShader( ps_4_0, PS() ) );"\
+	"	}"\
+	"}";
 
 D3D10Renderer::D3D10Renderer()
 {
@@ -67,8 +89,8 @@ bool D3D10Renderer::init(void *pWindowHandle,bool fullScreen)
 		return false;
 	if (!createInitialRenderTarget(width,height))
 		return false;
-	//if (!loadEffectFromMemory(pMem))
-		//return false;
+	if (!loadEffectFromMemory(basicEffect))
+		return false;
 	if (!createBuffer())
 		return false;
 	if (!createVertexLayout())
@@ -212,6 +234,30 @@ bool D3D10Renderer::createInitialRenderTarget(int windowWidth, int windowHeight)
 
 bool D3D10Renderer::loadEffectFromMemory(const char* pMem)
 {
+	DWORD dwShaderFlags = D3D10_SHADER_ENABLE_STRICTNESS;
+#if defined( DEBUG ) || defined(_DEBUG)
+	dwShaderFlags |= D3D10_SHADER_DEBUG;
+#endif
+	ID3D10Blob * pErrorBuffer=NULL;
+	if (FAILED(D3DX10CreateEffectFromMemory(pMem, 
+		strlen(pMem),
+		NULL,
+		NULL,
+		NULL,
+		"fx_4_0",
+		dwShaderFlags,
+		0,
+		m_pD3D10Device,
+		NULL,
+		NULL,
+		&m_pTempEffect,
+		&pErrorBuffer,
+		NULL )))
+	{
+		OutputDebugStringA((char*)pErrorBuffer->GetBufferPointer());
+		return false;
+	}
+	m_pTempTechnique=m_pTempEffect->GetTechniqueByName("Render");
 	return true;
 }
 
@@ -246,6 +292,18 @@ bool D3D10Renderer::createBuffer()
 
 bool D3D10Renderer::createVertexLayout()
 {
+	UINT numElements = sizeof( VertexLayout ) / sizeof(D3D10_INPUT_ELEMENT_DESC);
+	D3D10_PASS_DESC PassDesc;
+	m_pTempTechnique->GetPassByIndex( 0 )->GetDesc( &PassDesc );
+	
+	if (FAILED(m_pD3D10Device->CreateInputLayout (VertexLayout,
+		numElements,
+		PassDesc.pIAInputSignature,
+		PassDesc.IAInputSignatureSize,
+		&m_pTempVertexLayout )))
+		{
+			OutputDebugStringA("Can't create layout");
+	}
 	return true;
 }
 
@@ -268,4 +326,26 @@ void D3D10Renderer::present()
 
 void D3D10Renderer::render()
 {
+	m_pD3D10Device->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+	m_pD3D10Device->IASetInputLayout(m_pTempVertexLayout);
+
+	UINT stride = sizeof( Vertex );
+	UINT offset = 0;
+
+	m_pD3D10Device->IASetVertexBuffers(
+		0,
+		1,
+		&m_pTempBuffer,
+		&stride,
+		&offset );
+
+	D3D10_TECHNIQUE_DESC techniqueDesc;
+	m_pTempTechnique->GetDesc(&techniqueDesc);
+
+	for (unsigned int i=0;i<techniqueDesc.Passes;++i)
+	{
+		ID3D10EffectPass *pCurrentPass=m_pTempTechnique->GetPassByIndex(i);
+		pCurrentPass->Apply(0);
+		m_pD3D10Device->Draw(3,0);
+	}
 }
