@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C++ Express 2010
+# Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Window", "Window\Window.vcxproj", "{DB0E915C-43B1-49A3-A126-3551BF087FFE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lab1", "Lab1\Lab1.vcxproj", "{08322DFB-3579-46C7-8A52-4FC241ED892F}"
@@ -13,6 +13,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Renderer", "Renderer\Renderer.vcxproj", "{0D0604A6-FD63-4858-8025-BE965692D331}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3D10Renderer", "D3D10Renderer\D3D10Renderer.vcxproj", "{0681E1E8-648C-4FB2-8778-381E813560B4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Effects", "Effects", "{F87448ED-9160-40F2-A070-BFF511706AB0}"
+	ProjectSection(SolutionItems) = preProject
+		Debug\Effects\Transform.fx = Debug\Effects\Transform.fx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
