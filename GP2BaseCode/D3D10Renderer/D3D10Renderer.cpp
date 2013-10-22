@@ -100,13 +100,13 @@ bool D3D10Renderer::init(void *pWindowHandle,bool fullScreen)
 
         //if (!loadEffectFromMemory(basicEffect))
         //        return false;
-        if (!loadEffectFromFile("Effects/Texture.fx"))
+        if (!loadEffectFromFile("Effect/Texture.fx"))
                 return false;
         if (!creatVertexLayout())
                 return false;
         if (!createBuffer())
                 return false;
-        if (!loadBaseTexture("Textures/face.png"))
+        if (!loadBaseTexture("Texture/face.png"))
                 return false;
 
         XMFLOAT3 cameraPos=XMFLOAT3(0.0f,0.0f,-10.0f);
@@ -302,7 +302,7 @@ bool D3D10Renderer::loadEffectFromFile(const char *pFilename)
         m_pWorldEffectVariable=m_pTempEffect->GetVariableByName("matWorld")->AsMatrix();
         m_pProjectionEffectVariable=m_pTempEffect->GetVariableByName("matProjection")->AsMatrix();
         m_pViewEffectVariable=m_pTempEffect->GetVariableByName("matView")->AsMatrix();
-        m_pBaseTextureEffectVariable=m_pTempEffect->GetVariableByName("diffuseTexture")->AsShaderResource();
+        m_pBaseTextureEffectVariable=m_pTempEffect->GetVariableByName("diffuseMap")->AsShaderResource();
         return true;
 }
 

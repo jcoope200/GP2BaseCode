@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C++ Express 2010
+# Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Window", "Window\Window.vcxproj", "{DB0E915C-43B1-49A3-A126-3551BF087FFE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lab1", "Lab1\Lab1.vcxproj", "{08322DFB-3579-46C7-8A52-4FC241ED892F}"
@@ -14,7 +14,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Renderer", "Renderer\Render
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3D10Renderer", "D3D10Renderer\D3D10Renderer.vcxproj", "{0681E1E8-648C-4FB2-8778-381E813560B4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Effects", "Effects\Effects.vcxproj", "{DDF434AB-7DD7-40F8-8011-D0B4E8DE4FE9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Effect", "Effect", "{D9AFBFF8-5F7D-4138-8F51-A0DFE1A3E61C}"
+	ProjectSection(SolutionItems) = preProject
+		Lab1\Effect\Texture.fx = Lab1\Effect\Texture.fx
+		Lab1\Effect\Transform.fx = Lab1\Effect\Transform.fx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,10 +46,6 @@ Global
 		{0681E1E8-648C-4FB2-8778-381E813560B4}.Debug|Win32.Build.0 = Debug|Win32
 		{0681E1E8-648C-4FB2-8778-381E813560B4}.Release|Win32.ActiveCfg = Release|Win32
 		{0681E1E8-648C-4FB2-8778-381E813560B4}.Release|Win32.Build.0 = Release|Win32
-		{DDF434AB-7DD7-40F8-8011-D0B4E8DE4FE9}.Debug|Win32.ActiveCfg = Debug|Win32
-		{DDF434AB-7DD7-40F8-8011-D0B4E8DE4FE9}.Debug|Win32.Build.0 = Debug|Win32
-		{DDF434AB-7DD7-40F8-8011-D0B4E8DE4FE9}.Release|Win32.ActiveCfg = Release|Win32
-		{DDF434AB-7DD7-40F8-8011-D0B4E8DE4FE9}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
