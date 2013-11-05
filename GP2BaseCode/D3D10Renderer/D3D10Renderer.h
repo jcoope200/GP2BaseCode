@@ -49,6 +49,7 @@ private:
 
     
         ID3D10Buffer * m_pTempBuffer;
+		ID3D10Buffer * m_pTempIndexBuffer;
 
        
         ID3D10InputLayout* m_pTempVertexLayout;
