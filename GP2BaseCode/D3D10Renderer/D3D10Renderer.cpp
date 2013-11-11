@@ -28,7 +28,7 @@ const D3D10_INPUT_ELEMENT_DESC VerexLayout[] =
 
 		{ "NORMAL", 
         0, 
-        DXGI_FORMAT_R32G32_FLOAT, 
+        DXGI_FORMAT_R32G32B32_FLOAT, 
         0, 
         20, 
         D3D10_INPUT_PER_VERTEX_DATA, 
@@ -96,6 +96,7 @@ D3D10Renderer::~D3D10Renderer()
                 m_pSwapChain->Release();
         if (m_pD3D10Device)
                 m_pD3D10Device->Release();
+	
 }
 
 bool D3D10Renderer::init(void *pWindowHandle,bool fullScreen)
@@ -114,7 +115,7 @@ bool D3D10Renderer::init(void *pWindowHandle,bool fullScreen)
 
         //if (!loadEffectFromMemory(basicEffect))
         //        return false;
-        if (!loadEffectFromFile("Effect/ambient.fx"))
+        if (!loadEffectFromFile("Effect/specular.fx"))
                 return false;
         if (!creatVertexLayout())
                 return false;
@@ -127,6 +128,7 @@ bool D3D10Renderer::init(void *pWindowHandle,bool fullScreen)
         XMFLOAT3 focusPos=XMFLOAT3(0.0f,0.0f,0.0f);
         XMFLOAT3 up=XMFLOAT3(0.0f,1.0f,0.0f);
 
+<<<<<<< HEAD
 		XMFLOAT3 lightDirection = new float[1, 1, 1];
 		XMFLOAT4 diffuseMaterial = new float[1, 0, 0, 1];
 		XMFLOAT4 diffuseLightColour = new float[1, 1, 1, 1];
@@ -134,6 +136,14 @@ bool D3D10Renderer::init(void *pWindowHandle,bool fullScreen)
 		lightDirectionVariable = m_pTempEffect->GetVariableByName("lightDirection")->AsShaderResource();
 		diffuseMaterialVariable = m_pTempEffect->GetVariableByName("diffuseMaterial")->AsShaderResource();
 		diffuseLightColourVariable = m_pTempEffect->GetVariableByName("diffuseLightColour")->AsShaderResource();
+=======
+		XMFLOAT3 m_lightDirection=XMFLOAT3(3.0f,5.0f,-10.0f);
+		XMFLOAT4 m_diffuseMaterial=XMFLOAT4(0.8f,0.8f,0.8f,1.0f);
+		XMFLOAT4 m_diffuseLightColour=XMFLOAT4(0.0f,0.0f,0.0f,1.0f);
+
+		XMFLOAT4 m_specularMaterial=XMFLOAT4(0.8f,0.8f,0.8f,1.0f);
+		XMFLOAT4 m_specularLightColour=XMFLOAT4(0.0f,0.0f,0.0f,1.0f);
+>>>>>>> 4fa7f4a8f8de3d0c914e08e2116aa86d055c9705
 
         createCamera(XMLoadFloat3(&cameraPos),XMLoadFloat3(&focusPos),XMLoadFloat3(&up),XM_PI/4,(float)width/(float)height,0.1f,100.0f);
         setSquarePosition(0.0f,0.0f,0.0f);
@@ -144,6 +154,7 @@ void D3D10Renderer::createCamera(XMVECTOR &position, XMVECTOR &focus,XMVECTOR &u
 {
         m_View=XMMatrixIdentity();
         m_Projection=XMMatrixIdentity();
+		
 
         m_View=XMMatrixLookAtLH(position,focus,up);
         m_Projection=XMMatrixPerspectiveFovLH(fov,aspectRatio,nearClip,farClip);
@@ -325,6 +336,11 @@ bool D3D10Renderer::loadEffectFromFile(const char *pFilename)
         m_pProjectionEffectVariable=m_pTempEffect->GetVariableByName("matProjection")->AsMatrix();
         m_pViewEffectVariable=m_pTempEffect->GetVariableByName("matView")->AsMatrix();
         m_pBaseTextureEffectVariable=m_pTempEffect->GetVariableByName("diffuseMap")->AsShaderResource();
+		m_pLightDirectionVariable=m_pTempEffect->GetVariableByName("lightDirection")->AsVector();
+		m_pDiffuseMaterialVariable=m_pTempEffect->GetVariableByName("diffuseMaterial")->AsVector();
+		m_pDiffuseLightColourVariable=m_pTempEffect->GetVariableByName("diffuseLightColour")->AsVector();
+		m_pSpecularMaterialVariable=m_pTempEffect->GetVariableByName("specularMaterial")->AsVector();
+		m_pSpecularLightColourVariable=m_pTempEffect->GetVariableByName("specularLightColour")->AsVector();
         return true;
 }
 
@@ -422,6 +438,11 @@ void D3D10Renderer::render()
         m_pProjectionEffectVariable->SetMatrix((float*)&m_Projection);
         m_pViewEffectVariable->SetMatrix((float*)&m_View);
         m_pBaseTextureEffectVariable->SetResource(m_pBaseTextureMap);
+		m_pLightDirectionVariable->SetFloatVector((float*)&m_lightDirection);
+		m_pDiffuseMaterialVariable->SetFloatVector((float*)&m_diffuseMaterial);
+		m_pDiffuseLightColourVariable->SetFloatVector((float*)&m_diffuseLightColour);
+		m_pSpecularMaterialVariable->SetFloatVector((float*)&m_specularMaterial);
+		m_pSpecularLightColourVariable->SetFloatVector((float*)&m_specularLightColour);
 
         
         m_pD3D10Device->IASetPrimitiveTopology( D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP );
