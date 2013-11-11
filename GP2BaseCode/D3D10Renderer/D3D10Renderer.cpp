@@ -54,6 +54,8 @@ const char basicEffect[]=\
         "        }"\
         "}";
 
+
+
 D3D10Renderer::D3D10Renderer()
 {
         m_pD3D10Device=NULL;
@@ -124,6 +126,14 @@ bool D3D10Renderer::init(void *pWindowHandle,bool fullScreen)
         XMFLOAT3 cameraPos=XMFLOAT3(3.0f,5.0f,-10.0f);
         XMFLOAT3 focusPos=XMFLOAT3(0.0f,0.0f,0.0f);
         XMFLOAT3 up=XMFLOAT3(0.0f,1.0f,0.0f);
+
+		XMFLOAT3 lightDirection = new float[1, 1, 1];
+		XMFLOAT4 diffuseMaterial = new float[1, 0, 0, 1];
+		XMFLOAT4 diffuseLightColour = new float[1, 1, 1, 1];
+
+		lightDirectionVariable = m_pTempEffect->GetVariableByName("lightDirection")->AsShaderResource();
+		diffuseMaterialVariable = m_pTempEffect->GetVariableByName("diffuseMaterial")->AsShaderResource();
+		diffuseLightColourVariable = m_pTempEffect->GetVariableByName("diffuseLightColour")->AsShaderResource();
 
         createCamera(XMLoadFloat3(&cameraPos),XMLoadFloat3(&focusPos),XMLoadFloat3(&up),XM_PI/4,(float)width/(float)height,0.1f,100.0f);
         setSquarePosition(0.0f,0.0f,0.0f);
