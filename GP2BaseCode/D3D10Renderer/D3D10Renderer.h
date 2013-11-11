@@ -57,12 +57,25 @@ private:
  
         XMMATRIX m_View;
         XMMATRIX m_Projection;
+		XMMATRIX m_World;
 
-        XMMATRIX m_World;
+		XMFLOAT3 m_lightDirection;
+		XMFLOAT4 m_diffuseMaterial;
+		XMFLOAT4 m_diffuseLightColour;
 
-        ID3D10EffectMatrixVariable * m_pWorldEffectVariable;
+		XMFLOAT4 m_specularMaterial;
+		XMFLOAT4 m_specularLightColour;
+		
+		ID3D10EffectMatrixVariable * m_pWorldEffectVariable;
         ID3D10EffectMatrixVariable * m_pProjectionEffectVariable;
         ID3D10EffectMatrixVariable * m_pViewEffectVariable;
+
+		ID3D10EffectVectorVariable * m_pLightDirectionVariable;
+		ID3D10EffectVectorVariable * m_pDiffuseMaterialVariable;
+		ID3D10EffectVectorVariable * m_pDiffuseLightColourVariable;
+
+		ID3D10EffectVectorVariable * m_pSpecularMaterialVariable;
+		ID3D10EffectVectorVariable * m_pSpecularLightColourVariable;
 
         ID3D10ShaderResourceView * m_pBaseTextureMap;
         ID3D10EffectShaderResourceVariable *m_pBaseTextureEffectVariable;
