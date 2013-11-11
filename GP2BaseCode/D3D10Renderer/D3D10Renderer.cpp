@@ -128,22 +128,15 @@ bool D3D10Renderer::init(void *pWindowHandle,bool fullScreen)
         XMFLOAT3 focusPos=XMFLOAT3(0.0f,0.0f,0.0f);
         XMFLOAT3 up=XMFLOAT3(0.0f,1.0f,0.0f);
 
-<<<<<<< HEAD
-		XMFLOAT3 lightDirection = new float[1, 1, 1];
-		XMFLOAT4 diffuseMaterial = new float[1, 0, 0, 1];
-		XMFLOAT4 diffuseLightColour = new float[1, 1, 1, 1];
+		XMFLOAT4 m_ambientMaterial=XMFLOAT4(8.0f,4.0f,2.0f,0.0f);
+		XMFLOAT4 m_ambientLightColour=XMFLOAT4(8.0f,4.0f,2.0f,1.0f);
 
-		lightDirectionVariable = m_pTempEffect->GetVariableByName("lightDirection")->AsShaderResource();
-		diffuseMaterialVariable = m_pTempEffect->GetVariableByName("diffuseMaterial")->AsShaderResource();
-		diffuseLightColourVariable = m_pTempEffect->GetVariableByName("diffuseLightColour")->AsShaderResource();
-=======
 		XMFLOAT3 m_lightDirection=XMFLOAT3(3.0f,5.0f,-10.0f);
 		XMFLOAT4 m_diffuseMaterial=XMFLOAT4(0.8f,0.8f,0.8f,1.0f);
-		XMFLOAT4 m_diffuseLightColour=XMFLOAT4(0.0f,0.0f,0.0f,1.0f);
+		XMFLOAT4 m_diffuseLightColour=XMFLOAT4(0.5f,0.7f,0.3f,1.0f);
 
 		XMFLOAT4 m_specularMaterial=XMFLOAT4(0.8f,0.8f,0.8f,1.0f);
-		XMFLOAT4 m_specularLightColour=XMFLOAT4(0.0f,0.0f,0.0f,1.0f);
->>>>>>> 4fa7f4a8f8de3d0c914e08e2116aa86d055c9705
+		XMFLOAT4 m_specularLightColour=XMFLOAT4(0.9f,0.6f,0.0f,1.0f);
 
         createCamera(XMLoadFloat3(&cameraPos),XMLoadFloat3(&focusPos),XMLoadFloat3(&up),XM_PI/4,(float)width/(float)height,0.1f,100.0f);
         setSquarePosition(0.0f,0.0f,0.0f);
@@ -337,6 +330,8 @@ bool D3D10Renderer::loadEffectFromFile(const char *pFilename)
         m_pViewEffectVariable=m_pTempEffect->GetVariableByName("matView")->AsMatrix();
         m_pBaseTextureEffectVariable=m_pTempEffect->GetVariableByName("diffuseMap")->AsShaderResource();
 		m_pLightDirectionVariable=m_pTempEffect->GetVariableByName("lightDirection")->AsVector();
+		m_pAmbientMaterialVariable=m_pTempEffect->GetVariableByName("ambientMaterial")->AsVector();
+		m_pAmbientLightColourVariable=m_pTempEffect->GetVariableByName("ambientLightColour")->AsVector();
 		m_pDiffuseMaterialVariable=m_pTempEffect->GetVariableByName("diffuseMaterial")->AsVector();
 		m_pDiffuseLightColourVariable=m_pTempEffect->GetVariableByName("diffuseLightColour")->AsVector();
 		m_pSpecularMaterialVariable=m_pTempEffect->GetVariableByName("specularMaterial")->AsVector();
@@ -438,6 +433,8 @@ void D3D10Renderer::render()
         m_pProjectionEffectVariable->SetMatrix((float*)&m_Projection);
         m_pViewEffectVariable->SetMatrix((float*)&m_View);
         m_pBaseTextureEffectVariable->SetResource(m_pBaseTextureMap);
+		m_pAmbientMaterialVariable->SetFloatVector((float*)&m_ambientMaterial);
+		m_pAmbientLightColourVariable->SetFloatVector((float*)&m_ambientLightColour);
 		m_pLightDirectionVariable->SetFloatVector((float*)&m_lightDirection);
 		m_pDiffuseMaterialVariable->SetFloatVector((float*)&m_diffuseMaterial);
 		m_pDiffuseLightColourVariable->SetFloatVector((float*)&m_diffuseLightColour);
