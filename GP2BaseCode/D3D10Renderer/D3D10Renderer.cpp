@@ -124,19 +124,19 @@ bool D3D10Renderer::init(void *pWindowHandle,bool fullScreen)
         if (!loadBaseTexture("Texture/face.png"))
                 return false;
 
-        XMFLOAT3 cameraPos=XMFLOAT3(3.0f,5.0f,-10.0f);
+        XMFLOAT3 cameraPos=XMFLOAT3(-5.0f,-5.0f,-10.0f);
         XMFLOAT3 focusPos=XMFLOAT3(0.0f,0.0f,0.0f);
         XMFLOAT3 up=XMFLOAT3(0.0f,1.0f,0.0f);
 
-		XMFLOAT4 m_ambientMaterial=XMFLOAT4(8.0f,4.0f,2.0f,0.0f);
-		XMFLOAT4 m_ambientLightColour=XMFLOAT4(8.0f,4.0f,2.0f,1.0f);
+		m_ambientMaterial=XMFLOAT4(1.0f,0.85f,0.56f,1.0f);
+		m_ambientLightColour=XMFLOAT4(0.53f,0.5f,0.666f,1.0f);
 
-		XMFLOAT3 m_lightDirection=XMFLOAT3(3.0f,5.0f,-10.0f);
-		XMFLOAT4 m_diffuseMaterial=XMFLOAT4(0.8f,0.8f,0.8f,1.0f);
-		XMFLOAT4 m_diffuseLightColour=XMFLOAT4(0.5f,0.7f,0.3f,1.0f);
+		m_lightDirection=XMFLOAT3(0.0f,0.0f,-1.0f);
+		m_diffuseMaterial=XMFLOAT4(0.5f,0.5f,0.0f,1.0f);
+		m_diffuseLightColour=XMFLOAT4(1.0f,1.0f,1.0f,1.0f);
 
-		XMFLOAT4 m_specularMaterial=XMFLOAT4(0.8f,0.8f,0.8f,1.0f);
-		XMFLOAT4 m_specularLightColour=XMFLOAT4(0.9f,0.6f,0.0f,1.0f);
+		m_specularMaterial=XMFLOAT4(1.0f,0.0f,0.0f,1.0f);
+		m_specularLightColour=XMFLOAT4(1.0f,1.0f,1.0f,1.0f);
 
         createCamera(XMLoadFloat3(&cameraPos),XMLoadFloat3(&focusPos),XMLoadFloat3(&up),XM_PI/4,(float)width/(float)height,0.1f,100.0f);
         setSquarePosition(0.0f,0.0f,0.0f);
